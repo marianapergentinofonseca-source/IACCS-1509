@@ -1,10 +1,10 @@
 // Pinos dos botões e do LED
-const int botao1 = 32;   // Botão 1 no pino digital 32
-const int botao2 = 33;   // Botão 2 no pino digital 33
-const int botao3 = 27;   // Botão 3 no pino digital 27
-const int led1 = 5;     // Led verde
-const int led2 = 18;     // led amarelo 
-const int led3 = 19;      // led vermelho
+const int botao1 = 32;   // Botão 1 no pino digital 32 - a
+const int botao2 = 33;   // Botão 2 no pino digital 33 - b
+const int botao3 = 27;   // Botão 3 no pino digital 27 - c
+const int led1 = 23;     // Led vermelho
+const int led2 = 22;     // led verde
+const int led3 = 19;      //led amarelo
 
 void setup() {
   pinMode(botao1, INPUT_PULLUP); // Usa resistor interno de pull-up
@@ -13,33 +13,34 @@ void setup() {
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
   pinMode(led3, OUTPUT);
-
 }
 
 void loop() {
   // Leitura dos botões (LOW = pressionado por causa do pull-up)
   bool estadoBotao1 = digitalRead(botao1);
   bool estadoBotao2 = digitalRead(botao2);
-  bool estadoBotao3 = digitalRead(botao1);
+  bool estadoBotao3 = digitalRead(botao3);
 
   // Usa operador AND: para acendimento dos LEDS
-  if (estadoBotao3 || (!estadoBotao1 && !estadoBotao2)) {
-    digitalWrite(led1, HIGH);
-    digitalWrite(led2, LOW);
+  //“O botão 1 está pressionado E o botão 2 está solto E o botão 3 está solto”.
+  if (!estadoBotao3 || (!estadoBotao1 && !estadoBotao2)) { //LED vermelho (emergência)
+    digitalWrite(led1, HIGH);  // VERMELHO OFF
+    digitalWrite(led2, LOW);  // VERDE ON
+    digitalWrite(led3, LOW);  // AMARELO ON
      }
-  else if (estadoBotao1 && estadoBotao2){
-    digitalWrite(led3, HIGH);
-    digitalWrite(led2, LOW);
+  else if (!estadoBotao1 && estadoBotao2){ //LED AMARELO - ATENCAO 
+    digitalWrite(led1, LOW); //VERMELHO OFF
+    digitalWrite(led2, LOW);  // VERDE OFF
+    digitalWrite(led3, HIGH); // amarelo ON
     
-  } else {
-    digitalWrite(led1, LOW);
-    digitalWrite(led3, HIGH);
-    digitalWrite(led3, LOW);
+  } else { // LED VERDE - FUNCIONAMENTO NORMAL
+    digitalWrite(led1, LOW);  //VERMELHO OFF
+    digitalWrite(led2, HIGH); //VERDE ON
+    digitalWrite(led3, LOW); //AMARELO OFF
   }
 
   delay(100);
 }
-// verde else
-// amarelo botao 1 ativo e botao 2 desativado
-// vermelho(3) acende quando o botao 3 ativo OU botao 1 e botao 2 estiverem ativos ao mesmo tempo
+
+
 
